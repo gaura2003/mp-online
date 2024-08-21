@@ -1,0 +1,291 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #7432fa;
+    padding: 10px 20px;
+}
+
+.navbar-left .menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu li {
+    position: relative;
+}
+
+.menu li a {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.menu li a:hover {
+    background-color: mediumpurple;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: mediumpurple;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: mediumpurple;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    margin-right: 15px;
+    flex-direction: row;
+}
+
+.search-form input {
+    padding: 10px;
+    border: none;
+    border-radius: 3px 0 0 3px;
+    outline: none;
+    width: 300px;
+}
+
+.search-form button {
+    padding: 7px;
+    background-color: orangered;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    color: white;
+    cursor: pointer;
+    width: 80px;
+    font-size: 18px;
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.logout-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: orangered;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background-color: orange;
+}
+
+
+.search-form button:hover {
+    background-color: orange;
+}
+
+.register-btn, .login-btn {
+    padding: 7px 15px;
+    margin-left: 10px;
+    background-color: orangered;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.register-btn:hover, .login-btn:hover {
+    background-color: orange;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, auto);
+    gap: 10px;
+    padding: 20px;
+}
+
+.grid-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+}
+
+.grid-item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px 5px 0 0;
+}
+
+.grid-item h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.grid-item p {
+    font-size: 14px;
+    color: #555;
+}
+        /* Slider styles */
+.slider {
+    position: relative;
+    overflow: hidden;
+    width: 500px;
+    margin: 0 auto;
+    top: 30px;
+}
+
+.slide-container {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide1 {
+    min-width: 100%;
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+.slide1 img {
+    width: 100%;
+    height: auto;
+}
+
+/* Button styles */
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.service-details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.grid-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-image: url('../images/login bg.jpg');
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+.close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.register-page,
+.login-page {
+    display: none;
+}
+
+/* /register toggle */
+.modal {
+    display: none;
+    /* Hidden by default */
+}
+
+.modal-content {
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+.close {
+    cursor: pointer;
+}

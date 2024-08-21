@@ -1,0 +1,44 @@
+/* General styles for the admin dashboard */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #7432fa;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background: #f4f4f4;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background:#7432fa;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
