@@ -1,14 +1,14 @@
-<?php 
+<?php
 
-define('DBNAME','mp_online_services');
-define('DBUSER','root');
-define('DBPASS','');
-define('DBHOST','localhost');
+define('DBNAME', 'mp_online_services');
+define('DBUSER', 'root');
+define('DBPASS', '');
+define('DBHOST', 'localhost');
 
 try {
-    $db = new PDO("mysql:host=".DBHOST.";dbname=".DBNAME, DBUSER, DBPASS);
+    $db = new PDO("mysql:host=" . DBHOST . ";dbname=" . DBNAME, DBUSER, DBPASS);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Issue -> Connection failed: " . $e->getMessage();
 }
 
@@ -18,8 +18,8 @@ $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'payment_date';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 
 // SQL query for payments with search and sorting
-$sql = "SELECT * FROM services, payments 
-        WHERE services.id = payments.pid 
+$sql = "SELECT * FROM services, payments
+        WHERE services.id = payments.pid
         AND (firstname LIKE :search OR lastname LIKE :search OR payer_email LIKE :search OR orderid LIKE :search OR mobile LIKE :search)
         ORDER BY $sort_by $order";
 
@@ -27,88 +27,91 @@ $stmt = $db->prepare($sql);
 $stmt->execute(['search' => "%$search%"]);
 $payments = $stmt->fetchAll();
 
-// Export functionality
-if (isset($_GET['export']) && $_GET['export'] == 'csv') {
-    // Set headers to download the file
-    header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="payments.csv"');
-
-    // Open output stream
-    $output = fopen('php://output', 'w');
-
-    // Write the header row
-    fputcsv($output, ['Paid By', 'Payer Email', 'Order ID', 'Title', 'Paid Amount', 'Address', 'Mobile', 'Note', 'Order Date']);
-
-    // Write data rows
-    foreach ($payments as $row) {
-        fputcsv($output, [
-            $row['firstname'] . ' ' . $row['lastname'],
-            $row['payer_email'],
-            $row['orderid'],
-            $row['service_name'],
-            $row['amount'] . ' INR',
-            $row['address'],
-            $row['mobile'],
-            $row['note'],
-            $row['payment_date']
-        ]);
-    }
-
-    // Close the output stream
-    fclose($output);
-    exit();
-}
-
 // User ID and name for accepting work
-$user_id = $_SESSION['user_id'] ?? 123;  // Replace with actual user ID
-$user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user name
+$user_id = $_SESSION['user_id'] ?? 123; // Replace with actual user ID
+$user_name = $_SESSION['username'] ?? "John Doe"; // Replace with actual user name
 
 // HTML starts here
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Payments | Orders - Techno Smarter</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Work</title>
     <style>
-        table {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .card {
+            display: flex;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
             width: 100%;
-            border-collapse: collapse;
+            height: 150px;
+            object-fit: contain;
         }
-        table, th, td {
-            border: 1px solid black;
+        .card-body {
+            padding: 20px;
+            color: #333;
         }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
+        .card-body p {
+            margin: 10px 0;
         }
         .accept-btn {
+            display: block;
+            width: 100%;
             background-color: #4CAF50;
             color: white;
-            padding: 5px 10px;
+            padding: 10px;
+            text-align: center;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
         }
         .accept-btn:hover {
             background-color: #45a049;
         }
+        .accepted {
+            color: #555;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+        }
+        form{
+            display:flex;
+            justify-content: end;
+    gap: 34px;
+        }
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 form-container">
-            <h1>Orders</h1>
-            <hr>
 
             <!-- Search Bar -->
-            <form method="GET" action="">
+            <form method="GET" action="" >
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search by name, email, order ID, mobile..." name="search" value="<?php echo htmlspecialchars($search); ?>">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -119,7 +122,7 @@ $user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user n
                     <select class="form-select" name="sort_by">
                         <option value="payment_date" <?php echo $sort_by == 'payment_date' ? 'selected' : ''; ?>>Sort by Date</option>
                         <option value="amount" <?php echo $sort_by == 'amount' ? 'selected' : ''; ?>>Sort by Amount</option>
-                        <option value="firstname" <?php echo $sort_by == 'firstname' ? 'selected' : ''; ?>>Sort by Name</option>
+                        <option value="service_name" <?php echo $sort_by == 'service_name' ? 'selected' : ''; ?>>Sort by Name</option>
                     </select>
                     <select class="form-select" name="order">
                         <option value="ASC" <?php echo $order == 'ASC' ? 'selected' : ''; ?>>Ascending</option>
@@ -128,48 +131,32 @@ $user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user n
                     <button class="btn btn-outline-secondary" type="submit">Sort</button>
                 </div>
             </form>
+            <h2>Available Work</h2>
+<div class="card-container">
+    <?php
+foreach ($payments as $row) {
+    echo "<div class='card'>
+            <div style='padding-left:20px;'>
+<img src='{$row['image_url']}' alt='Service Image'>
+             <p><strong>Service:</strong> {$row['service_name']}</p>
+                <p><strong>Amount:</strong> {$row['amount']} INR</p>
+            </div>
+            <div class='card-body'>
+                <p><strong >ID:</strong> {$row['orderid']}</p>
+                <p><strong >Custmor Name:</strong><br> {$row['firstname']}&nbsp;{$row['lastname']}</p>
+                <p><strong>Deadline:</strong> {$row['deadline']}</p>
+                <p><strong>Published Date:</strong> {$row['payment_date']}</p>";
 
-          
+    // Only show accept button if the work is not already accepted
+    if ($row['work_status'] == 'pending') {
+        echo "<button class='accept-btn' onclick='acceptWork({$row['id']}, $user_id, \"$user_name\")'>Accept</button>";
+    } else {
+        echo "<div class='accepted'>Accepted by {$row['accepted_by']}</div>";
+    }
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>S No.</th>
-                        <th>Order ID</th>
-                        <th>Product Image</th>
-                        <th>Title</th>
-                        <th>Amount</th>
-                        <th>Deadline</th>
-                        <th>Order Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                    foreach ($payments as $row) {
-                       echo '<tr>
-                       <td>'.$row['id'].'</td>
-                       <td>'.$row['orderid'].'</td>
-                      <td><img class="card-img-top" src="'.$row['image_url'].'" alt="Card image cap" height="30" style="width:auto;"></td>
-                       <td>'.$row['service_name'].'</td>
-                       <td>'.$row['amount'].' INR</td>
-                       <td>'.$row['deadline'].'</td>
-                       <td>'.$row['payment_date'].'</td>';
-                       
-                       // Only show accept button if the work is not already accepted
-                       if ($row['work_status'] == 'pending') {
-                           echo "<td><button class='accept-btn' onclick='acceptWork({$row['id']}, $user_id, \"$user_name\")'>Accept</button></td>";
-                       } else {
-                           echo "<td>Accepted by {$row['accepted_by']}</td>";
-                       }
-                       
-                       echo "</tr>";
-                    }
-                    ?> 
-                </tbody>
-            </table> 
-        </div>
-    </div>
+    echo "</div></div>";
+}
+?>
 </div>
 
 <script>
@@ -181,7 +168,8 @@ $user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user n
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     alert('Work accepted successfully!');
-                    location.reload(); // Refresh the page to see the changes
+                    // Optionally, hide the card or reload the page to update the UI
+                    location.reload();
                 } else {
                     alert('Failed to accept work. Please try again.');
                 }

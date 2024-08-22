@@ -33,13 +33,15 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worker Dashboard</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Add your CSS file link here -->
+    <link rel="stylesheet" href="./css/style.css"> <!-- Add your CSS file link here -->
+    <link rel="stylesheet" href="./css/styles.scss"> <!-- Add your CSS file link here -->
   
 </head>
 <body>
-    <a href="profile.php?user_id=<?php $worker_id ?>">profile</a>
+   
     <?php
-    include('./includes/work.php');
+    include('./includes/navbar.php');
+   
     ?>
 
 </body>
