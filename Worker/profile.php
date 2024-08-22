@@ -3,8 +3,8 @@ include('./php/connection.php');
 session_start();
 
 // Check if worker_id is provided in the URL
-if (isset($_GET['user_id'])) {
-    $worker_id = $_GET['user_id'];
+if (isset($_SESSION['user_id']) && $_SESSION['role'] == 'worker') {
+    $worker_id = $_SESSION['user_id'];
 
     // Prepare the SQL statement to fetch worker data
     $stmt = $conn->prepare("SELECT * FROM mp_online_service_worker WHERE id = ?");

@@ -4,14 +4,14 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Service Station</a>
+                    <a  class="nav__logo">Service Station</a>
                 </div>
                 <div class="nav__list">
-                    <a href="#" class="nav__link active" onclick="loadContent('work.php')">
+                    <a  class="nav__link active" onclick="loadContent('work.php')">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">Dashboard</span>
                     </a>
-                    <a href="#" class="nav__link" onclick="loadContent('profile.php')">
+                    <a  class="nav__link" onclick="loadContent('profile.php')">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">Profile</span>
                     </a>
@@ -22,12 +22,12 @@
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                         <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink" onclick="loadContent('history.php?status=pending')">Pending</a>
-                            <a href="#" class="collapse__sublink" onclick="loadContent('history.php?status=success')">Success</a>
+                            <a  class="collapse__sublink" onclick="loadContent('history.php?status=pending')">Pending</a>
+                            <a  class="collapse__sublink" onclick="loadContent('history.php?status=success')">Success</a>
                         </ul>
                     </div>
 
-                    <a href="#" class="nav__link" onclick="loadContent('contact.php')">
+                    <a class="nav__link" onclick="loadContent('contact.php')">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">Contact Us</span>
                     </a>
@@ -38,20 +38,20 @@
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                         <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink" onclick="loadContent('help.php?topic=service')">Service help</a>
-                            <a href="#" class="collapse__sublink" onclick="loadContent('help.php?topic=payment')">Payment Problem</a>
-                            <a href="#" class="collapse__sublink" onclick="loadContent('help.php?topic=other')">Other Problem</a>
+                            <a class="collapse__sublink" onclick="loadContent('help.php?topic=service')">Service help</a>
+                            <a class="collapse__sublink" onclick="loadContent('help.php?topic=payment')">Payment Problem</a>
+                            <a class="collapse__sublink" onclick="loadContent('help.php?topic=other')">Other Problem</a>
                         </ul>
                     </div>
 
-                    <a href="#" class="nav__link" onclick="loadContent('settings.php')">
+                    <a class="nav__link" onclick="loadContent('settings.php')">
                         <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">Settings</span>
                     </a>
                 </div>
             </div>
 
-            <a href="#" class="nav__link" onclick="loadContent('logout.php')">
+            <a class="nav__link" onclick="loadContent('logout.php')">
                 <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                 <span class="nav__name">Log Out</span>
             </a>
