@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Redirect based on role
         if ($user['role'] === 'admin') {
-            header("Location: admin services/index.php");
+            header("Location: admin services");
         } elseif ($user['role'] === 'worker') {
-            header("Location: worker_dashboard.php");
+            header("Location: Worker");
         } else {
-            header("Location: index.php");
+            header("Location: mp-online");
         }
         exit();
     } else {

@@ -3,15 +3,16 @@
                 <div class="profile-pic"><img src="./images/user-solid.svg" alt=""></div>
                 <div class="navbar-right">
                     <?php
-                    $user_role = $_SESSION['role'] ?? null;
-                    if (isset($_SESSION['user_id'])) {
-                        echo '<span class="user-name" style="color:white; font-size:18px;">' . $_SESSION['username'] .'</span>';
-                    } else {
-                        echo '<button class="register-btn" onclick="openRegisterModal(\'user\')">Register</button>';
-                        echo '<button class="register-btn" onclick="openRegisterModal(\'worker\')">Register as worker</button>';
-                        echo '<button class="login-btn" id="takeServiceButton" onclick="openLoginModal()">Login</button>';
-                    }
-                    ?>
+$user_role = $_SESSION['role'] ?? null;
+
+if (isset($_SESSION['user_id'])) {
+    echo '<span class="user-name" style="color:white; font-size:18px;">' . $_SESSION['username'] . '</span>';
+} else {
+    echo '<button class="register-btn" onclick="openRegisterModal(\'user\')">Register</button>';
+    echo '<button class="register-btn" onclick="openRegisterModal(\'worker\')">Register as worker</button>';
+    echo '<button class="login-btn" id="takeServiceButton" onclick="openLoginModal()">Login</button>';
+}
+?>
                 </div>
             </div>
             <ul class="menu">
@@ -38,23 +39,28 @@
                 <?php if ($user_role === 'worker'): ?>
                 <li class="menu-item">
                     <div class="menu-icon"><img src="./images/admin-icon.svg" alt=""></div>
-                    <span><a href="worker_dashboard.php" style="text-decoration: none; color: white;">Go to Work</a></span>
+                    <span>
+    <a href="Worker?user_id=<?php $_SESSION['user_id'] ?>" style="text-decoration: none; color: white;">
+        Go to Work
+    </a>
+</span>
+
                 </li>
-                <?php endif; ?>
+                <?php endif;?>
                 <?php if ($user_role === 'admin'): ?>
                 <li class="menu-item">
                     <div class="menu-icon"><img src="./images/admin-icon.svg" alt=""></div>
-                    <span><a href="admin services/index.php" style="text-decoration: none; color: white;">Admin Panel</a></span>
+                    <span><a href="admin services" style="text-decoration: none; color: white;">Admin Panel</a></span>
                 </li>
-                <?php endif; ?>
-               
+                <?php endif;?>
+
                 <li class="menu-item">
                     <?php
-                    if (isset($_SESSION['user_id'])) {
-                        echo '<div class="menu-icon"><img src="./images/right-to-bracket-solid.svg" alt=""></div>';
-                        echo '<a href="logout.php" style="text-decoration: none; color:white;" class="logout-btn">Logout</a>';
-                    }
-                    ?>
+if (isset($_SESSION['user_id'])) {
+    echo '<div class="menu-icon"><img src="./images/right-to-bracket-solid.svg" alt=""></div>';
+    echo '<a href="logout.php" style="text-decoration: none; color:white;" class="logout-btn">Logout</a>';
+}
+?>
                 </li>
             </ul>
         </div>

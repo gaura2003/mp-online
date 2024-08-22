@@ -30,8 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt_insert_user->bind_param('sssssss', $username, $full_name, $email, $password, $phone_number, $address, $role);
 
                     if ($stmt_insert_user->execute()) {
-                        echo "User registration successful!";
-                        // Redirect or handle post-registration actions here
+                        // Set session variables
+                        $_SESSION['user_id'] = $stmt_insert_user->insert_id;
+                        $_SESSION['username'] = $username;
+                        $_SESSION['full_name'] = $full_name;
+                        $_SESSION['email'] = $email;
+                        $_SESSION['role'] = $role;
+
+                        header('Location: mp-online'); 
+                        exit();
+                        
                     } else {
                         echo "Error: " . $stmt_insert_user->error;
                     }
@@ -47,8 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt_insert_worker->bind_param('ssssss', $username, $full_name, $email, $password, $phone_number, $address);
 
                     if ($stmt_insert_worker->execute()) {
-                        echo "Worker registration successful!";
-                        // Redirect or handle post-registration actions here
+                        // Set session variables
+                        $_SESSION['user_id'] = $stmt_insert_worker->insert_id;
+                        $_SESSION['username'] = $username;
+                        $_SESSION['full_name'] = $full_name;
+                        $_SESSION['email'] = $email;
+                        $_SESSION['role'] = $role;
+
+                        header('Location: worker');
+exit();
+
                     } else {
                         echo "Error: " . $stmt_insert_worker->error;
                     }

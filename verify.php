@@ -38,8 +38,11 @@ if (!empty($_POST['razorpay_payment_id'])) {
         $error = 'Razorpay Error: ' . $e->getMessage();
     }
 }
-
 if ($success === true) {
+    // Retrieve deadline from session
+    $deadline = $_SESSION['deadline'];
+
+    // Other session and payment details
     $firstname = $_SESSION['fname'];
     $lastname = $_SESSION['lname'];
     $email = $_SESSION['email'];
@@ -61,10 +64,6 @@ if ($success === true) {
     $stmt->bind_result($last_txnid);
     $stmt->fetch();
     $stmt->close();
-
-    // Generate new transaction ID
-    $new_txnid = $last_txnid ? $last_txnid + 1 : 1; // Start from 1 if no records exist
-
     echo '<div>';
     if (!isset($error_found)) {
         $stmt = $conn->prepare("SELECT * FROM services WHERE id = ?");
@@ -81,6 +80,8 @@ if ($success === true) {
         echo '</div>';
     }
     echo '</div>';
+    // Generate new transaction ID
+    $new_txnid = $last_txnid ? $last_txnid + 1 : 1; // Start from 1 if no records exist
 
     // Check if transaction already exists
     $stmt = $conn->prepare("SELECT count(*) FROM payments WHERE txnid = ?");
@@ -92,15 +93,15 @@ if ($success === true) {
 
     if ($countts <= 0) {
         // Only insert if txnid is unique
-        $stmt = $conn->prepare("INSERT INTO payments (firstname, lastname, amount, status, txnid, orderid, pid, payer_email, currency, mobile, address, note, payment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssdsissssssss", $firstname, $lastname, $amount, $status, $new_txnid, $orderid, $pid, $email, $currency, $mobile, $address, $note, $payment_date);
+        $stmt = $conn->prepare("INSERT INTO payments (firstname, lastname, amount, status, txnid, orderid, pid, payer_email, currency, mobile, address, note, payment_date, deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdsisssssssss", $firstname, $lastname, $amount, $status, $new_txnid, $orderid, $pid, $email, $currency, $mobile, $address, $note, $payment_date, $deadline);
 
         if ($stmt->execute()) {
             echo '<h2 style="color:#33FF00;">Your payment has been successful.</h2><hr>';
             // Display transaction details
             echo '<table class="table">';
             echo '<tr><th>Transaction ID:</th><td>' . $new_txnid . '</td></tr>';
-            echo '<tr><th>Order ID:</th><td>' . $orderid . '</td></tr>'; // Display Order ID
+            echo '<tr><th>Order ID:</th><td>' . $orderid . '</td></tr>';
             echo '<tr><th>Paid Amount:</th><td>' . $amount . ' ' . $currency . '</td></tr>';
             echo '<tr><th>Payment Status:</th><td>' . $status . '</td></tr>';
             echo '<tr><th>Payer Email:</th><td>' . $email . '</td></tr>';
@@ -108,6 +109,7 @@ if ($success === true) {
             echo '<tr><th>Address:</th><td>' . $address . '</td></tr>';
             echo '<tr><th>Note:</th><td>' . $note . '</td></tr>';
             echo '<tr><th>Date:</th><td>' . $payment_date . '</td></tr>';
+            echo '<tr><th>Deadline:</th><td>' . $deadline . '</td></tr>';
             echo '</table>';
         } else {
             echo '<p>Error saving payment details to the database.</p>';
