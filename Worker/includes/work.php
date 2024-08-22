@@ -134,15 +134,12 @@ $user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user n
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Paid By</th>
-                        <th>Payer Email</th>
+                        <th>S No.</th>
                         <th>Order ID</th>
                         <th>Product Image</th>
                         <th>Title</th>
-                        <th>Paid Amount</th>
-                        <th>Address</th>
-                        <th>Mobile</th>
-                        <th>Note</th>
+                        <th>Amount</th>
+                        <th>Deadline</th>
                         <th>Order Date</th>
                         <th>Action</th>
                     </tr>
@@ -151,15 +148,12 @@ $user_name = $_SESSION['username'] ?? "John Doe";  // Replace with actual user n
                     <?php 
                     foreach ($payments as $row) {
                        echo '<tr>
-                       <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                       <td>'.$row['payer_email'].'</td>
+                       <td>'.$row['id'].'</td>
                        <td>'.$row['orderid'].'</td>
                       <td><img class="card-img-top" src="'.$row['image_url'].'" alt="Card image cap" height="30" style="width:auto;"></td>
                        <td>'.$row['service_name'].'</td>
                        <td>'.$row['amount'].' INR</td>
-                       <td>'.$row['address'].'</td>
-                       <td>'.$row['mobile'].'</td>
-                       <td>'.$row['note'].'</td>
+                       <td>'.$row['deadline'].'</td>
                        <td>'.$row['payment_date'].'</td>';
                        
                        // Only show accept button if the work is not already accepted
