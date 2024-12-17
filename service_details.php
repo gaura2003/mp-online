@@ -45,7 +45,7 @@ $conn->close();
 </head>
 <body>
 
-<?php include('navbar.php'); ?>
+<?php include('nav.php'); ?>
 <div class="content">
     <div class="service-details mt-20">
         <div class="card w-44 ">

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['email'] = $email;
                         $_SESSION['role'] = $role;
 
-                        header('Location: mp-online'); 
+                        header('Location: /github clone/mp-online'); 
                         exit();
                         
                     } else {

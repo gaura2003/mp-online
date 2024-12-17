@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['email'] = $user['email'];
         $_SESSION['role'] = $user['role'];
 
         // Redirect based on role
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($user['role'] === 'worker') {
             header("Location: Worker");
         } else {
-            header("Location: mp-online");
+            header("Location: /github clone/mp-online");
         }
         exit();
     } else {
