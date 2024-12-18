@@ -3,12 +3,12 @@ session_start();
 require('razorpay-php/Razorpay.php');
 include('./php/connection.php');
 
-if (!isset($_SESSION['pid'])) {
+if (!isset($_SESSION['serviceid'])) {
     header("Location: index.php");
     exit;
 }
 
-$pid = $_SESSION['pid'];
+$pid = $_SESSION['serviceid'];
 
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
@@ -19,12 +19,20 @@ $error = "Payment Failed";
 $keyId = 'rzp_test_E5BNM56ZxxZAwk'; 
 $keySecret = 'uXo5UAsgnT7zglLrmsH749Je';
 
+// Check if Razorpay payment ID is available in POST
 if (!empty($_POST['razorpay_payment_id'])) {
     $api = new Api($keyId, $keySecret);
 
     try {
+        // Ensure order ID is set from session
+        $orderId = isset($_SESSION['razorpay_order_id']) ? $_SESSION['razorpay_order_id'] : null;
+
+        if (!$orderId) {
+            throw new Exception("Order ID is not available in session.");
+        }
+
         $attributes = array(
-            'razorpay_order_id' => $_SESSION['razorpay_order_id'],
+            'razorpay_order_id' => $orderId,
             'razorpay_payment_id' => $_POST['razorpay_payment_id'],
             'razorpay_signature' => $_POST['razorpay_signature']
         );
@@ -34,10 +42,18 @@ if (!empty($_POST['razorpay_payment_id'])) {
     } catch (SignatureVerificationError $e) {
         $success = false;
         $error = 'Razorpay Error: ' . $e->getMessage();
+    } catch (Exception $e) {
+        $success = false;
+        $error = $e->getMessage();
     }
 }
 
 if ($success === true) {
+    // Generate a new order ID: Fetch the last order ID from the database and increment it
+    $result = $conn->query("SELECT MAX(orderid) AS max_orderid FROM payments");
+    $row = $result->fetch_assoc();
+    $orderid = (int)$row['max_orderid'] + 1; // Increment last order ID by 1
+
     // Retrieve payment details from session
     $firstname = $_SESSION['fname'];
     $lastname = $_SESSION['lname'];
@@ -46,7 +62,6 @@ if ($success === true) {
     $address = $_SESSION['address'];
     $note = $_SESSION['note'];
     $productinfo = 'Payment';
-    $orderid = $_SESSION['razorpay_order_id'];
     $amount = $_SESSION['price'];
     $status = 'success';
     $currency = 'INR';
@@ -54,20 +69,15 @@ if ($success === true) {
     $payment_date = $date->format('Y-m-d H:i:s');
     $deadline = $_SESSION['deadline'];
 
-    // Get the last transaction ID and increment it
-    $stmt = $conn->prepare("SELECT MAX(txnid) FROM payments");
-    $stmt->execute();
-    $stmt->bind_result($last_txnid);
-    $stmt->fetch();
-    $stmt->close();
-
-    // Generate new transaction ID
-    $new_txnid = $last_txnid ? $last_txnid + 12 : 1; // Start from 1 if no records exist
-
     // Insert payment details into database
-    $stmt = $conn->prepare("INSERT INTO payments (firstname, lastname, amount, status, txnid, orderid, pid, payer_email, currency, mobile, address, note, payment_date, deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdsisssssssss", $firstname, $lastname, $amount, $status, $new_txnid, $orderid, $pid, $email, $currency, $mobile, $address, $note, $payment_date, $deadline);
-    $stmt->execute();
+    $stmt = $conn->prepare("INSERT INTO payments (firstname, lastname, amount, status, orderid, pid, payer_email, currency, mobile, address, note, payment_date, deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdsissssssss", $firstname, $lastname, $amount, $status, $orderid, $pid, $email, $currency, $mobile, $address, $note, $payment_date, $deadline);
+
+    if ($stmt->execute()) {
+        echo "Payment recorded successfully!";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
     $stmt->close();
 }
 ?>
@@ -94,7 +104,6 @@ if ($success === true) {
                     <div class="modal-body">
                         <p class="fw-bold">Thank you for your payment!</p>
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Transaction ID:</strong> <?php echo $new_txnid; ?></li>
                             <li class="list-group-item"><strong>Order ID:</strong> <?php echo $orderid; ?></li>
                             <li class="list-group-item"><strong>Amount Paid:</strong> <?php echo $amount . ' ' . $currency; ?></li>
                             <li class="list-group-item"><strong>Payment Status:</strong> <?php echo $status; ?></li>
@@ -125,10 +134,10 @@ if ($success === true) {
                 window.location.href = 'order.php';
             });
 
-            // Auto-redirect after 5 seconds
+            // Auto-redirect after 10 seconds
             setTimeout(function () {
                 window.location.href = 'order.php';
-            }, 5000);
+            }, 10000);
         </script>
     <?php else: ?>
         <p class="text-danger">Invalid Transaction. Please try again.</p>
