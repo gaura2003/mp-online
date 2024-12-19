@@ -38,10 +38,6 @@ ul{
   padding: 0;
   list-style: none;
 }
-a{
-  text-decoration: none;
-}
-
 
 .l-navbar{
   position: fixed;
@@ -56,6 +52,9 @@ a{
   z-index: var(--z-fixed);
 }
 
+.nav__logo{
+  text-decoration: none;
+}
 
 .nav{
   height: 100%;
@@ -92,6 +91,7 @@ a{
   margin-bottom: 1rem;
   transition: .3s;
   cursor: pointer;
+  text-decoration: none;
 }
 .nav__link:hover{
   background-color: var(--first-color);

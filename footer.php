@@ -18,8 +18,7 @@
 <!-- Google fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://demo.websolutionus.com/servicetop/public/frontend/css/style.css">
-<link rel="stylesheet" href="https://demo.websolutionus.com/servicetop/public/frontend/css/responsive.css">
+<link rel="stylesheet" href="./css/responsive.css">
 
 </head>
 <body>

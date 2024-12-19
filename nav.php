@@ -1,4 +1,13 @@
+<style>
+    .profile-pic{
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 8px;
+    }
+</style>
 <body id="body-pd">
+    
     <!-- Navigation Sidebar -->
     <div class="l-navbar" id="navbar">
         <nav class="nav">
@@ -8,23 +17,29 @@
                     <a class="nav__logo">Service Station</a>
                 </div>
                 <div class="profile">
-                    <div class="profile-pic">
-                        <ion-icon name="person-outline" class="nav__icon" style="font-size: 40px;"></ion-icon>
-                    </div>
-                    <div class="navbar-right">
+                    <div class="profile-pic" id="profile-pic">
                         <?php
                         session_start();
                         include './php/connection.php';
+
                         $user_role = $_SESSION['role'] ?? null;
 
                         if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
-                            $nameParts = explode(' ', trim($_SESSION['username']));
+                            $username = $_SESSION['username'];
+                            $nameParts = explode(' ', trim($username));
                             $initials = '';
                             foreach ($nameParts as $part) {
                                 $initials .= strtoupper(substr($part, 0, 1));
                             }
-                            echo '<span class="user-name" style="color:white; font-size:18px;">' . $initials . '</span>';
+                            echo '<span class="user-name" 
+                        id="user-name" 
+                        style="color:white; font-size:24px; padding-left:10px; cursor:default;" 
+                        data-full-name="' . htmlspecialchars($username, ENT_QUOTES) . '" 
+                        data-initials="' . htmlspecialchars($initials, ENT_QUOTES) . '">'
+                                . $initials .
+                                '</span>';
                         } else {
+                            echo '<ion-icon name="person-outline" class="nav__icon" style="font-size: 40px;"></ion-icon>';
                             echo '<button class="register-btn" onclick="openRegisterModal(\'user\')">Register</button>';
                             echo '<button class="register-btn" onclick="openRegisterModal(\'worker\')">Register as worker</button>';
                             echo '<button class="login-btn" onclick="openLoginModal()">Login</button>';
@@ -96,11 +111,29 @@
         const showMenu = (toggleId, navbarId, bodyId) => {
             const toggle = document.getElementById(toggleId),
                 navbar = document.getElementById(navbarId),
-                bodypadding = document.getElementById(bodyId);
+                bodypadding = document.getElementById(bodyId),
+                userNameSpan = document.getElementById("user-name"),
+                profile_pic = document.getElementById("profile-pic");
+
 
             if (toggle && navbar) {
                 toggle.addEventListener('click', () => {
                     navbar.classList.toggle('expander');
+                    if (navbar.classList.contains("expander")) {
+                        userNameSpan.textContent = userNameSpan.getAttribute("data-full-name");
+                        userNameSpan.style.fontSize = "1.2rem";
+                        profile_pic.style.width = "175px";
+                        profile_pic.style.borderRadius = "none";
+                        profile_pic.style.backgroundColor = "transparent";
+                    } else {
+                        userNameSpan.textContent = userNameSpan.getAttribute("data-initials");
+                        userNameSpan.style.fontSize = "1.3rem";
+                        profile_pic.style.width = "40px";
+                        profile_pic.style.height = "40px";
+                        profile_pic.style.borderRadius = "50%";
+                        profile_pic.style.backgroundColor = "green";
+
+                    }
                     bodypadding.classList.toggle('body-pd');
                 });
             }
@@ -131,5 +164,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             loadContent('main.php');
         });
+
     </script>
 </body>

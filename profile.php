@@ -21,11 +21,12 @@ $user = $result->fetch_assoc();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
         /* General Styles */
 
@@ -38,6 +39,7 @@ $user = $result->fetch_assoc();
             width: 100%;
             max-width: 400px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
         }
 
         .profile-card img {
@@ -70,6 +72,9 @@ $user = $result->fetch_assoc();
 
         .profile-card .info div span {
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
         }
 
         .profile-card .info div i {
@@ -145,12 +150,13 @@ $user = $result->fetch_assoc();
         }
     </style>
 </head>
+
 <body>
     <div class="profile-card">
         <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="profile-picture">
         <h2><?php echo htmlspecialchars($user['username']); ?></h2>
         <p>@<?php echo htmlspecialchars($user['username']); ?> <i class="fas fa-pen"></i></p>
-        
+
         <div class="info">
             <div>
                 <span>Username</span>
@@ -169,8 +175,9 @@ $user = $result->fetch_assoc();
                 <span><?php echo htmlspecialchars($user['address']); ?> <i class="fas fa-pen"></i></span>
             </div>
         </div>
-        
+
         <a href="edit_profile.php" class="edit-profile-btn">Edit Profile</a>
     </div>
 </body>
+
 </html>

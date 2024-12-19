@@ -9,21 +9,30 @@
     <!-- Title -->
     <title>ServiceTop-Contact Us</title>
 
-    <!-- Stylesheets --><!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Ensure the form container is above other elements */
+        .contauct-style1 {
+            position: relative;
+            z-index: 10; /* Ensure the form is above other elements */
+        }
 
-    <!-- Font Awesome Official CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"
-        integrity="sha384-9jkv1bXf8JQYfDqz8TjFf2BdInZ5Bx7z9U4Jo5Q4zF6tmxFjKbT1hGuUZrP9D9d7" crossorigin="anonymous">
+        /* Ensure the input fields are not covered by other elements */
+        input, textarea, select {
+            position: relative;
+            z-index: 1;
+        }
 
-    <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+        /* Ensure the banner area doesn't overlap the form */
+        .banner-area {
+            position: relative;
+            z-index: 0; /* Lower z-index to prevent overlap */
+        }
 
-    <link rel="stylesheet" href="https://demo.websolutionus.com/servicetop/public/frontend/css/style.css">
-    <link rel="stylesheet" href="https://demo.websolutionus.com/servicetop/public/frontend/css/responsive.css">
-
-
+        /* Enable pointer events on all elements */
+        * {
+            pointer-events: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,7 +46,7 @@
                     <div class="banner-text">
                         <h1>Contact Us</h1>
                         <ul>
-                            <li><a href="https://demo.websolutionus.com/servicetop">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li><span>Contact Us</span></li>
                         </ul>
                     </div>
@@ -48,7 +57,7 @@
     <!--Banner End-->
 
     <!--Form Start-->
-    <div class="contauct-style1  pt_50 pb_65">
+    <div class="contauct-style1 pt_50 pb_65">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
@@ -60,7 +69,7 @@
                             singulis.
                         </p>
                     </div>
-                    <form method="post" action="https://demo.websolutionus.com/servicetop/contact">
+                    <form method="post" action="send-email.php">
                         <input type="hidden" name="_token" value="3Mhfzgm6E84GVWSf3iri88tLZxuNmLEeq8oWuJz7"
                             autocomplete="off">
                         <div class="row contact-form">
@@ -84,7 +93,6 @@
                                 <label for="message">Message <span class="text-danger">*</span></label>
                                 <textarea name="message" id="message" class="form-control"></textarea>
                             </div>
-
 
                             <div class="mt-3 mb-3 form-group">
                                 <button type="submit" id="recaptcha" class="btn">Send Message</button>

@@ -35,11 +35,10 @@ body, html {
 }
 
 .profile-pic {
-    width: 40px;
-    height: 40px;
+    width: 175px;
     margin-right: 16px;
     border-radius: 50%;
-   
+    background-color: green;
 }
 
 .menu {

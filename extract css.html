@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract CSS from Large Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .container {
+            margin-bottom: 20px;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f4f4f4;
+        }
+
+        .output pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container input,
+        .input-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Extract CSS Properties for a Specific Class</h1>
+
+    <div class="container">
+        <div class="input-container">
+            <label for="css-input">Paste Your CSS Code Here:</label>
+            <textarea id="css-input" rows="10" placeholder="Paste your large CSS code here"></textarea>
+        </div>
+
+        <div class="input-container">
+            <label for="class-name-input">Enter Class Name to Extract:</label>
+            <input type="text" id="class-name-input" placeholder="Enter class name (e.g., .banner-area)">
+        </div>
+
+        <button class="btn" onclick="extractCSS()">Extract CSS</button>
+    </div>
+
+    <div class="output" id="output">
+        <h2>Extracted CSS:</h2>
+        <pre id="css-output">No CSS extracted yet.</pre>
+    </div>
+
+    <script>
+        function extractCSS() {
+            const cssInput = document.getElementById('css-input').value;
+            const className = document.getElementById('class-name-input').value.trim();
+
+            if (!cssInput || !className) {
+                alert('Please provide both CSS code and a class name.');
+                return;
+            }
+
+            // Create a temporary style element to inject the CSS into the page
+            const styleElement = document.createElement('style');
+            styleElement.innerHTML = cssInput;
+            document.head.appendChild(styleElement);
+
+            // Try to extract the CSS for the given class name
+            const rules = document.styleSheets[document.styleSheets.length - 1].cssRules;
+            let extractedCSS = '';
+
+            for (let i = 0; i < rules.length; i++) {
+                if (rules[i].selectorText && rules[i].selectorText.includes(className)) {
+                    extractedCSS = rules[i].cssText;
+                    break;
+                }
+            }
+
+            // If found, display the extracted CSS, otherwise show a message
+            if (extractedCSS) {
+                document.getElementById('css-output').textContent = extractedCSS;
+            } else {
+                document.getElementById('css-output').textContent = `No CSS found for class: ${className}`;
+            }
+
+            // Clean up the temporary style element
+            document.head.removeChild(styleElement);
+        }
+    </script>
+
+</body>
+</html>
