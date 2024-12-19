@@ -12,8 +12,7 @@
 <!-- Stylesheets --><!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<!-- Font Awesome Official CDN -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" integrity="sha384-9jkv1bXf8JQYfDqz8TjFf2BdInZ5Bx7z9U4Jo5Q4zF6tmxFjKbT1hGuUZrP9D9d7" crossorigin="anonymous">
+<!-- Font Awesome Official CDN --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/fontawesome.min.css" integrity="sha384-NvKbDTEnL+A8F/AA5Tc5kmMLSJHUO868P+lDtTpJIeQdGYaUIuLr4lVGOEA1OcMy" crossorigin="anonymous">
 
 <!-- Google fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,8 +57,8 @@
                             <div class="footer-item">
                                 <h3>Quick Links</h3>
                                 <ul>
-                                    <li><a href="https://demo.websolutionus.com/servicetop">Home</a></li>
-                                    <li><a href="https://demo.websolutionus.com/servicetop/policy/privacy-policy">Privacy
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/privacy-policy">Privacy
                                             Policy</a></li>
 
                                 </ul>
@@ -88,10 +87,11 @@
                         </div>
                         <div class="col-md-6">
                             <div class="footer-social">
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-twitter"></i></a>
-                                <a href=""><i class="fab fa-linkedin-in"></i></a>
-
+                                <a href=""><ion-icon class="fs-2" name="logo-facebook"></ion-icon></a>
+                                <a href=""><ion-icon class="fs-2" name="logo-twitter"></ion-icon></a>
+                                <a href=""><ion-icon class="fs-2" name="logo-linkedin"></ion-icon></i></a>
+                                <a href=""><ion-icon class="fs-2" name="logo-instagram"></ion-icon></a>
+                                <a href=""><ion-icon class="fs-2" name="logo-youtube"></ion-icon></a>
                             </div>
                         </div>
                     </div>

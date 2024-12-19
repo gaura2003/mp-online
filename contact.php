@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name='description' content="Contact Us">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <!-- Title -->
     <title>ServiceTop-Contact Us</title>
 
@@ -104,7 +106,8 @@
                     <div class="contact-info-item bg1 mb-3 mt-3">
                         <div class="contact-info">
                             <span>
-                                <i class="fas fa-phone"></i> Phone:
+                            <ion-icon name="call-outline" class="nav__icon"></ion-icon>
+                            Phone:
                             </span>
                             <div class="contact-text">
                                 <p>
@@ -116,7 +119,7 @@
                     <div class="contact-info-item bg2 mb-3">
                         <div class="contact-info">
                             <span>
-                                <i class="far fa-envelope"></i> Email:
+                            <ion-icon name="mail-outline"></ion-icon> Email:
                             </span>
                             <div class="contact-text">
                                 <p>
@@ -128,7 +131,7 @@
                     <div class="contact-info-item bg3 mb-3">
                         <div class="contact-info">
                             <span>
-                                <i class="fas fa-map-marker-alt"></i> Address:
+                            <ion-icon name="location-outline"></ion-icon> Address:
                             </span>
                             <div class="contact-text">
                                 <p>

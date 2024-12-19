@@ -44,7 +44,7 @@ try {
 $conn->close();
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+</style>
 <div id="content">
     <div class="header">
         <h1>Welcome to Online Services</h1>
@@ -101,28 +101,26 @@ $conn->close();
 
 </div>
 <div class="stats-section">
-        <div class="stat-item">
-            <i class="fas fa-user-cog"></i>
-            <h2>20</h2>
-            <p>Service Providers</p>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-user-lock"></i>
-            <h2>100</h2>
-            <p>Happy Customers</p>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-bullhorn"></i>
-            <h2>350+</h2>
-            <p>Successful orders</p>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-list-alt"></i>
-            <h2>100+</h2>
-            <p>Categories</p>
-        </div>
+    <div class="stat-item">
+        <ion-icon name="settings-outline"></ion-icon>
+        <h2>20</h2>
+        <p>Service Providers</p>
     </div>
-    
+    <div class="stat-item">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <h2>100</h2>
+        <p>Happy Customers</p>
+    </div>
+    <div class="stat-item">
+    <ion-icon name="megaphone-outline"></ion-icon>
+        <h2>350+</h2>
+        <p>Successful orders</p>
+    </div>
+    <div class="stat-item">
+        <ion-icon name="list-outline"></ion-icon>
+        <h2>100+</h2>
+        <p>Categories</p>
+    </div>
 </div>
 
 <div id="authModal" class="modal">

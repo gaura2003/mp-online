@@ -33,7 +33,7 @@
         }
 
         .scroll-top:hover {
-            background-color: #5433a6;
+            background-color:rgb(243, 126, 151);
         }
     </style>
 </head>
@@ -42,10 +42,10 @@
 
     <!-- Scroll to Top Button -->
     <div class="scroll-top" id="scroll-top">
-        <i class="fas fa-angle-up"></i>
+    <ion-icon name="chevron-up-outline"></ion-icon>
     </div>
-
     <?php include 'footer.php'; ?>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

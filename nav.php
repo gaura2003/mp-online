@@ -33,7 +33,7 @@
                             }
                             echo '<span class="user-name" 
                         id="user-name" 
-                        style="color:white; font-size:24px; padding-left:10px; cursor:default;" 
+                        style="color:white; font-size:24px; padding-left:10px; cursor:default; width:180px;" 
                         data-full-name="' . htmlspecialchars($username, ENT_QUOTES) . '" 
                         data-initials="' . htmlspecialchars($initials, ENT_QUOTES) . '">'
                                 . $initials .
@@ -100,12 +100,12 @@
 
     <!-- Content Container -->
     <div id="content">
-        <?php include 'main.php'; ?>
-        
+        <?php include 'main.php'; ?>  
     </div>
+    <?php include 'footer.php'; ?>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
     <script>
         // Expand/Collapse Navbar
         const showMenu = (toggleId, navbarId, bodyId) => {
@@ -121,8 +121,9 @@
                     navbar.classList.toggle('expander');
                     if (navbar.classList.contains("expander")) {
                         userNameSpan.textContent = userNameSpan.getAttribute("data-full-name");
+                        console.log(userNameSpan.getAttribute("data-full-name").length);
                         userNameSpan.style.fontSize = "1.2rem";
-                        profile_pic.style.width = "175px";
+                        profile_pic.style.width = "180px";
                         profile_pic.style.borderRadius = "none";
                         profile_pic.style.backgroundColor = "transparent";
                     } else {
@@ -130,7 +131,6 @@
                         userNameSpan.style.fontSize = "1.3rem";
                         profile_pic.style.width = "40px";
                         profile_pic.style.height = "40px";
-                        profile_pic.style.borderRadius = "50%";
                         profile_pic.style.backgroundColor = "green";
 
                     }
