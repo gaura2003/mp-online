@@ -11,6 +11,7 @@ $service_name = $_POST['service_name'];
 $service_price = $_POST['service_price'];
 $category_id = $_POST['category_id'];
 $description = $_POST['description'];
+$document_list = isset($_POST['document_list']) ? json_encode($_POST['document_list']) : '[]'; // Convert document list to JSON
 
 // Handle image upload
 $image_url = '';
@@ -47,8 +48,8 @@ if (move_uploaded_file($_FILES["image_url"]["tmp_name"], $target_file)) {
 }
 
 // Insert service data into the database
-$sql = "INSERT INTO services (category_id, service_name, description, image_url,service_price) 
-        VALUES ('$category_id', '$service_name', '$description', '$image_url','$service_price')";
+$sql = "INSERT INTO services (category_id, service_name, description, image_url,service_price ,document_list) 
+        VALUES ('$category_id', '$service_name', '$description', '$image_url','$service_price', '$document_list')";
 
 if ($conn->query($sql) === TRUE) {
     echo "New service added successfully.";

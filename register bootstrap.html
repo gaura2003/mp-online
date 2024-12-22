@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .form-control {
+            background-color: #323843FF;
+            color: #a0aec0;
+            
+        }
+        .form-control:focus {
+            background-color: #2d3748;
+            color: #a0aec0;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
+        }
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        .form-group {
+            position: relative;
+        }
+        .form-group input {
+            padding-left: 40px;
+        }
+        .bg{
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex align-items-center justify-content-center min-vh-75">
+            <div class="col-md-6 bg p-5">
+                <h2 class="text-center text-white mb-4">Create Account</h2>
+                <p class="text-center text-white mb-4">Join WorkerHub to manage your work progress.</p>
+                <form>
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="form-control" placeholder="Enter your user name">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="form-control" placeholder="Enter your FullName">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="form-control" placeholder="Your Email address">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" class="form-control" placeholder="Enter Phone Number">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-home"></i>
+                        <input type="text" class="form-control" placeholder="Your home address">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-control" placeholder="Confirm Password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="terms">
+                        <label class="form-check-label text-white
+                        " for="terms">I agree with <a href="#" class="text-primary">Terms & Conditions</a></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+                <p class="text-center mt-4 text-white">Already registered? <a href="#" class="text-primary">Log in</a></p>
+            </div>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

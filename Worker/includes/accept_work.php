@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $worker_name = $mysqli->real_escape_string($worker['username']);
 
             // Update the payments table with the worker's username and set work_status to 'progress'
-            $sql = "UPDATE payments SET work_status = 'progress', accepted_by = '$worker_name' WHERE id = $payment_id";
+            $sql = "UPDATE payments SET work_status = 'progress',accepted_by_id = '$user_id', accepted_by = '$worker_name' WHERE id = $payment_id"  ;
 
             if ($mysqli->query($sql) === TRUE) {
                 echo "Work accepted successfully by $worker_name";

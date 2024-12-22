@@ -3,7 +3,6 @@ session_start();
 include('./php/connection.php'); // Database connection
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['name'];
     $full_name = $_POST['full_name'] ?? null;
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hash the password
@@ -11,15 +10,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $address = $_POST['address'];
     $role = $_POST['role']; // Assuming the role is provided in the form as 'user' or 'worker'
 
-    // Check if email already exists in the users or workers table
-    $sql_check = "SELECT email FROM users WHERE email = ? UNION SELECT email FROM mp_online_service_worker WHERE email = ?";
-    $stmt_check = $conn->prepare($sql_check);
-    if ($stmt_check) {
-        $stmt_check->bind_param('ss', $email, $email);
-        $stmt_check->execute();
-        $result_check = $stmt_check->get_result();
+    // Generate base username from the first name in full_name
+    $name_parts = explode(' ', trim($full_name));
+    $base_username = strtolower($name_parts[0]); // Use the first name in lowercase
+    $username = $base_username;
 
-        if ($result_check->num_rows > 0) {
+    // Check for unique username in both tables
+    $counter = 1;
+    $is_unique = false;
+
+    while (!$is_unique) {
+        $sql_check_username = "SELECT username FROM users WHERE username = ? UNION SELECT username FROM mp_online_service_worker WHERE username = ?";
+        $stmt_check_username = $conn->prepare($sql_check_username);
+        if ($stmt_check_username) {
+            $stmt_check_username->bind_param('ss', $username, $username);
+            $stmt_check_username->execute();
+            $result_check_username = $stmt_check_username->get_result();
+
+            if ($result_check_username->num_rows > 0) {
+                // If username exists, append a counter to make it unique
+                $username = $base_username . $counter;
+                $counter++;
+            } else {
+                $is_unique = true;
+            }
+
+            $stmt_check_username->close();
+        } else {
+            echo "Error preparing statement for username check.";
+            exit();
+        }
+    }
+
+    // Check if email already exists in the users or workers table
+    $sql_check_email = "SELECT email FROM users WHERE email = ? UNION SELECT email FROM mp_online_service_worker WHERE email = ?";
+    $stmt_check_email = $conn->prepare($sql_check_email);
+    if ($stmt_check_email) {
+        $stmt_check_email->bind_param('ss', $email, $email);
+        $stmt_check_email->execute();
+        $result_check_email = $stmt_check_email->get_result();
+
+        if ($result_check_email->num_rows > 0) {
             echo "Email already exists.";
         } else {
             // Insert into appropriate table based on role
@@ -39,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         header('Location: /github clone/mp-online'); 
                         exit();
-                        
                     } else {
                         echo "Error: " . $stmt_insert_user->error;
                     }
@@ -63,8 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['role'] = $role;
 
                         header('Location: worker');
-exit();
-
+                        exit();
                     } else {
                         echo "Error: " . $stmt_insert_worker->error;
                     }
@@ -78,7 +107,7 @@ exit();
             }
         }
 
-        $stmt_check->close();
+        $stmt_check_email->close();
     } else {
         echo "Error preparing statement for email check.";
     }

@@ -39,6 +39,7 @@
             <li><a href="services.php">Manage Services</a></li>
             <li><a href="add services.php">Add services</a></li>
             <li><a href="payments.php">Manage orders</a></li>
+            <li><a href="adminSlider.php">Manage Slider</a></li>
             <li><a href="../index.php">Go to Site</a></li>
         </ul>
         <div class="user-info">

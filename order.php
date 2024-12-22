@@ -162,7 +162,7 @@ $conn->close();
         /* Text color for better contrast */
     }
 
-    .status-completed {
+    .status-success {
         background-color: #198754;
         /* Darker green for completion */
         color: white;

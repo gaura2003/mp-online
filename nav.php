@@ -1,23 +1,15 @@
-<style>
-    .profile-pic{
-        display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 8px;
-    }
-</style>
 <body id="body-pd">
     
     <!-- Navigation Sidebar -->
     <div class="l-navbar" id="navbar">
         <nav class="nav">
             <div>
-                <div class="nav__brand">
+                <div class="nav__brand" style="padding-right: 40px;">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a class="nav__logo">Service Station</a>
                 </div>
                 <div class="profile">
-                    <div class="profile-pic" id="profile-pic">
+                    <div class="profile-pic d-flex justify-content-center align-items-center rounded-circle" id="profile-pic">
                         <?php
                         session_start();
                         include './php/connection.php';
@@ -33,16 +25,19 @@
                             }
                             echo '<span class="user-name" 
                         id="user-name" 
-                        style="color:white; font-size:24px; padding-left:10px; cursor:default; width:180px;" 
+                        style="color:white; font-size:24px;  cursor:default; width:180px; padding-left:6px; " 
                         data-full-name="' . htmlspecialchars($username, ENT_QUOTES) . '" 
                         data-initials="' . htmlspecialchars($initials, ENT_QUOTES) . '">'
                                 . $initials .
                                 '</span>';
                         } else {
-                            echo '<ion-icon name="person-outline" class="nav__icon" style="font-size: 40px;"></ion-icon>';
+                            echo '<ion-icon name="person-outline" class="nav__icon w-50 btn-success rounded-circle" style="font-size: 40px;"></ion-icon>';
+                            echo '<div>';
                             echo '<button class="register-btn" onclick="openRegisterModal(\'user\')">Register</button>';
                             echo '<button class="register-btn" onclick="openRegisterModal(\'worker\')">Register as worker</button>';
                             echo '<button class="login-btn" onclick="openLoginModal()">Login</button>';
+                            echo '</div>';
+                            
                         }
                         ?>
                     </div>
@@ -115,7 +110,9 @@
                 userNameSpan = document.getElementById("user-name"),
                 profile_pic = document.getElementById("profile-pic");
 
-
+                profile_pic.style.width = "40px";
+                        profile_pic.style.height = "40px";
+                        profile_pic.style.backgroundColor = "green";
             if (toggle && navbar) {
                 toggle.addEventListener('click', () => {
                     navbar.classList.toggle('expander');
@@ -132,6 +129,7 @@
                         profile_pic.style.width = "40px";
                         profile_pic.style.height = "40px";
                         profile_pic.style.backgroundColor = "green";
+
 
                     }
                     bodypadding.classList.toggle('body-pd');
