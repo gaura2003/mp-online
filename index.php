@@ -6,6 +6,7 @@
     <title>Services</title>
     <link rel="stylesheet" href="./css/new.css?v=1.0">
     <!-- <link rel="stylesheet" href="./css/nav.css?v=1.0"> -->
+     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
 <!-- Stylesheets --><!-- Bootstrap CSS -->
@@ -51,13 +52,10 @@
 </head>
 <body>
     <?php include './new nav.php'; ?>
-
     <!-- Scroll to Top Button -->
     <div class="scroll-top" id="scroll-top">
     <ion-icon name="chevron-up-outline"></ion-icon>
     </div>
-    <?php include 'footer.php'; ?>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

@@ -76,13 +76,6 @@ body, html {
 
 }
 
-
-.main-content {
-    width: 100%;
-    height: auto;
-    background-color: #A0AEC0;
-}
-
 .left-content {
     width: 60%;
 }
@@ -323,37 +316,7 @@ select{
     }
 }
 
-     
-.stats-section {
-            font-family: Arial, sans-serif;
-            color: white;
-            background-color: #4A00E0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 50px 0;
-            background-color: #4A00E0;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-item ion-icon {
-            font-size: 50px;
-            border: 2px solid white;
-            border-radius: 50%;
-            padding: 20px;
-            margin-bottom: 10px;
-        }
-        
-        
-        .stat-item h2 {
-            margin: 0;
-            font-size: 36px;
-        }
-        .stat-item p {
-            margin: 0;
-            font-size: 18px;
-        }
+   
 
         @media (max-width: 768px) {
             .stats-section {

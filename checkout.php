@@ -23,39 +23,39 @@ $conn->close();
 ?>
 
 <!-- Dynamic Checkout Form -->
-<div class="checkout-container">
+<div class="container">
     <h1>Checkout - <?php echo htmlspecialchars($service['service_name']); ?></h1>
     <hr>
 
-    <?php 
+    <?php
     if (isset($_POST['submit_form'])) {
         // Store form data in session variables
-        $_SESSION['fname'] = $_POST['fname']; 
-        $_SESSION['lname'] = $_POST['lname']; 
-        $_SESSION['email'] = $_POST['email']; 
-        $_SESSION['mobile'] = $_POST['mobile']; 
-        $_SESSION['note'] = $_POST['note']; 
-        $_SESSION['address'] = $_POST['address']; 
+        $_SESSION['fname'] = $_POST['fname'];
+        $_SESSION['lname'] = $_POST['lname'];
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['mobile'] = $_POST['mobile'];
+        $_SESSION['note'] = $_POST['note'];
+        $_SESSION['address'] = $_POST['address'];
         $_SESSION['serviceid'] = $_POST['service_id']; // Store service ID in session
         $_SESSION['deadline'] = $_POST['deadline']; // Store the selected deadline in session
-        
+
         // Redirect to payment page if email is provided
         if ($_POST['email'] != '') {
             header("location:pay.php");
             exit(); // Ensure no further code is executed after redirect
         }
-    } 
-    ?>		
+    }
+    ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <div class="row"> 
-        <div class="col-8"> 
+    <div class="row container ">
+        <div class="col-8">
             <form action="" method="POST">
                 <div class="mb-3">
                     <label class="label">First Name</label>
                     <input type="text" class="form-control" name="fname" required>
                 </div>
-                <input type="hidden" name="service_id" value="<?php  echo $service_id ;?>">
+                <input type="hidden" name="service_id" value="<?php echo $service_id; ?>">
                 <div class="mb-3">
                     <label class="label">Last Name</label>
                     <input type="text" class="form-control" name="lname" required>
@@ -64,10 +64,13 @@ $conn->close();
                     <label class="label">Email</label>
                     <input type="email" class="form-control" name="email" value="<?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : ''; ?>" required>
                 </div>
-
                 <div class="mb-3">
                     <label class="label">Mobile</label>
                     <input type="phone" class="form-control" name="mobile" required>
+                </div>
+                <div class="mb-3">
+                    <label class="label">Deadline</label>
+                    <input type="date" class="form-control" name="deadline" required>
                 </div>
                 <div class="mb-3">
                     <label class="label">Address</label>
@@ -77,10 +80,7 @@ $conn->close();
                     <label class="label">Note</label>
                     <textarea name="note" class="form-control"></textarea>
                 </div>
-                <div class="mb-3">
-                    <label class="label">Deadline</label>
-                    <input type="date" class="form-control" name="deadline" required>
-                </div>
+                
         </div>
 
         <div class="col-4 text-center">

@@ -48,7 +48,6 @@ if ($service_id) {
 $conn->close();
 ?>
 
-
 <!-- Display service details -->
 <div class="container my-5 d-flex flex-column h-auto">
     <?php if ($service): ?>
@@ -108,9 +107,3 @@ $conn->close();
         <p class="text-center text-danger">Service not found.</p>
     <?php endif; ?>
 </div>
-
-<script>
-function handleServiceClick(serviceId) {
-    window.location.href = `service_details.php?id=${serviceId}`;
-}
-</script>

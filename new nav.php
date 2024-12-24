@@ -1,33 +1,33 @@
 <?php
-                        session_start();
-                        include './php/connection.php';
+session_start();
+include './php/connection.php';
 
-                        $user_role = $_SESSION['role'] ?? null;
+$user_role = $_SESSION['role'] ?? null;
+$username = $_SESSION['username'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
+$profile_image = null;
 
-                        if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
-                            $username = $_SESSION['username'];
-                            $nameParts = explode(' ', trim($username));
-                            $initials = '';
-                            foreach ($nameParts as $part) {
-                                $initials .= strtoupper(substr($part, 0, 1));
-                            }
-                        //     echo '<span class="user-name" 
-                        // id="user-name" 
-                        // style="color:white; font-size:24px;  cursor:default; width:180px; padding-left:6px; " 
-                        // data-full-name="' . htmlspecialchars($username, ENT_QUOTES) . '" 
-                        // data-initials="' . htmlspecialchars($initials, ENT_QUOTES) . '">'
-                        //         . $initials .
-                        //         '</span>';
-                        } else {
-                            // echo '<ion-icon name="person-outline" class="nav__icon w-50 btn-success rounded-circle" style="font-size: 40px;"></ion-icon>';
-                            // echo '<div>';
-                            // echo '<button class="register-btn" onclick="openRegisterModal(\'user\')">Register</button>';
-                            // echo '<button class="register-btn" onclick="openRegisterModal(\'worker\')">Register as worker</button>';
-                            // echo '<button class="login-btn" onclick="openLoginModal()">Login</button>';
-                            // echo '</div>';
-                            
-                        }
-                        ?>
+// Fetch user details from the database
+if ($user_id && isset($username)) {
+  $stmt = $conn->prepare("SELECT profile_picture FROM users WHERE id = ?");
+  $stmt->bind_param("i", $user_id);
+  $stmt->execute();
+
+  $result = $stmt->get_result();
+  if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+    $profile_image = $user['profile_picture'];
+  }
+  $stmt->close();
+}
+
+// Generate initials from username (if profile image is not set)
+$nameParts = explode(' ', trim($username));
+$initials = '';
+foreach ($nameParts as $part) {
+  $initials .= strtoupper(substr($part, 0, 1));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,20 +40,22 @@
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </head>
+
 <body>
-  <div class="relative bg-[#070b18] h-full min-h-screen font-[sans-serif]">
-    <div class="flex items-start">
+  <!-- #070b18 -->
+  <div class="relative bg-[ #A0AEC0] h-full min-h-screen font-[sans-serif]">
+    <div class="flex items-start bg-[#A0AEC0]">
       <nav id="sidebar" class="lg:w-[270px] max-lg:fixed transition-all duration-500 shrink-0 z-[100]">
         <div id="sidebar-collapse-menu"
           class="bg-[#081028] shadow-lg h-screen fixed top-0 left-0 overflow-auto overflow-x-hidden z-[99] lg:w-[270px] max-lg:w-0 max-lg:invisible transition-all duration-500">
           <div class="bg-[#081028] flex items-center gap-4 pt-6 pb-2 px-4 sticky top-0 min-h-[64px] z-[100]">
-            <a href="javascript:void(0)"  class="flex items-center gap-2">
+            <a class="flex items-center gap-2">
               <ion-icon name="logo-ionic" class="w-8 h-8 text-[#017bfe]"></ion-icon>
               <p class="text-base font-semibold text-gray-300 tracking-wide">Dashboard</p>
             </a>
 
             <button id="close-sidebar" class='ml-auto'>
-              <ion-icon name="menu" class="w-5 h-5 text-gray-300"></ion-icon>
+              <ion-icon name="close" class="w-5 h-5 text-gray-300"></ion-icon>
             </button>
           </div>
 
@@ -65,92 +67,79 @@
             </div>
             <ul class="space-y-2 mt-6">
               <li>
-                <a href="javascript:void(0)" data-page="main.php"
+                <a onclick="loadContent('main.php')"
                   class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                   <ion-icon name="home" class="w-[18px] h-[18px] mr-3"></ion-icon>
                   <span class="overflow-hidden text-ellipsis whitespace-nowrap">Dashboard</span>
                 </a>
               <li>
-                <a href="javascript:void(0)" data-page="services.php"
+                <a onclick="loadContent('services.php')"
                   class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                   <ion-icon name="add" class="w-[18px] h-[18px] mr-3"></ion-icon>
                   <span class="overflow-hidden text-ellipsis whitespace-nowrap">Services</span>
-                  
+
                 </a>
               </li>
 
               <li>
-                <a href="javascript:void(0)" data-page="orders.php"
+                <a onclick="loadContent('order.php')"
 
                   class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                   <ion-icon name="time" class="w-[18px] h-[18px] mr-3"></ion-icon>
                   <span class="overflow-hidden text-ellipsis whitespace-nowrap">Orders</span>
-                  
+
                 </a>
-              
+
               </li>
 
               <li>
-                <a href="javascript:void(0)" data-page="help.php"
+                <a onclick="loadContent('help.php')"
                   class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                   <ion-icon name="person" class="w-[18px] h-[18px] mr-3"></ion-icon>
                   <span class="overflow-hidden text-ellipsis whitespace-nowrap">Help</span>
-                  
+
                 </a>
               </li>
 
               <li>
-                <a href="javascript:void(0)"
-                  class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
+                <a class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                   <ion-icon name="add-circle" class="w-[18px] h-[18px] mr-3"></ion-icon>
                   <span class="overflow-hidden text-ellipsis whitespace-nowrap">Actions</span>
                   <ion-icon name="chevron-down" class="arrowIcon w-2.5 h-2.5 -rotate-90 ml-auto transition-all duration-500"></ion-icon>
                 </a>
                 <ul class="sub-menu max-h-0 overflow-hidden transition-[max-height] duration-500 ease-in-out ml-8">
                   <li>
-                    <a href="javascript:void(0)" data-page="profile.php"
+                    <a onclick="loadContent('profile.php')"
                       class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
                       <span>Profile</span>
                     </a>
                   </li>
                   <?php if ($user_role === 'worker'): ?>
-                        <li>
-                        <ion-icon name="laptop-outline" class="nav__icon"></ion-icon>
+                    <li>
+                      <ion-icon name="laptop-outline" class="w-5 h-5 text-gray-300"></ion-icon>
 
-                    <a href="javascript:void(0)" data-page="Worker?user_id=<?php echo $_SESSION['user_id']; ?>" 
-                      class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
-                      <span>Go to Work</span>
-                    </a>
-                  </li>
-                        <li>
-                  <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <a href="javascript:void(0)" data-page="logout.php" onclick="return confirm('Are you sure you want to log out?');"
-                      class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
-                      <span>Logout</span>
-                    </a>
-                  </li>
-                    <?php endif; ?>
-                    <?php if ($user_role === 'admin'): ?>
-                       
-                        <li>
-                        <ion-icon name="person-outline" class="nav__icon"></ion-icon>
-                    <a href="javascript:void(0)" data-page="admin services"
-                      class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
-                      <span>Admin Panel</span>
-                    </a>
-                  </li>
-                        <li>
-                        <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <a href="javascript:void(0)" data-page="logout.php" onclick="return confirm('Are you sure you want to log out?');"
-                      class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
-                      <span>Logout</span>
-                    </a>
-                  </li>
-                    <?php endif; ?>
+                      <a onclick="loadContent('order.phpWorker?user_id=<?php echo $_SESSION['user_id']; ?>')"
+                        class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
+                        <span>Go to Work</span>
+                      </a>
+                    </li>
+
+                  <?php endif; ?>
+                  <?php if ($user_role === 'admin'): ?>
+
+                    <li>
+                      <ion-icon name="person-outline" class="w-5 h-5 text-gray-300"></ion-icon>
+                      <a onclick="loadContent('admin services')"
+                        class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
+                        <span>Admin Panel</span>
+                      </a>
+                    </li>
+
+                  <?php endif; ?>
                   <li>
-                  <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <a href="javascript:void(0)" data-page="logout.php" onclick="return confirm('Are you sure you want to log out?');"
-                      class="text-gray-300 text-sm block cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
+                    <a onclick="loadContent('logout.php')" onclick="return confirm('Are you sure you want to log out?');"
+                      class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2 transition-all duration-300">
+                      <ion-icon name="log-out-outline" class="w-5 h-5 text-gray-300"></ion-icon>
                       <span>Logout</span>
                     </a>
                   </li>
@@ -163,26 +152,33 @@
             <div>
               <ul class="space-y-2">
                 <li>
-                  <a href="javascript:void(0)" data-page="contact.php"
+                  <a onclick="loadContent('contact.php')"
                     class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                     <ion-icon name="shield" class="w-[18px] h-[18px] mr-3"></ion-icon>
                     <span>Contact Us</span>
                   </a>
                 </li>
                 <li>
-                  <a href="javascript:void(0)" data-page="settings.php"
+                  <a onclick="loadContent('settings.php')"
                     class="text-gray-300 text-sm flex items-center cursor-pointer hover:bg-[#0b1739] rounded-md px-3 py-2.5 transition-all duration-300">
                     <ion-icon name="settings" class="w-[18px] h-[18px] mr-3"></ion-icon>
                     <span>Preferences</span>
                   </a>
                 </li>
               </ul>
-
+              <!-- Profile section -->
               <div class="mt-6 flex items-center cursor-pointer">
-                <img src='https://readymadeui.com/profile.webp'
-                  class="w-9 h-9 rounded-full border-2 border-gray-600 shrink-0" />
+                <!-- If profile image exists, display it; otherwise, display initials inside a circle -->
+                <?php if ($profile_image): ?>
+                  <img src="uploads/<?php echo htmlspecialchars($profile_image); ?>" class="w-9 h-9 rounded-full border-2 border-gray-600 shrink-0" />
+                <?php else: ?>
+                  <div class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-600 text-white">
+                    <span class="text-sm"><?php echo $initials; ?></span>
+                  </div>
+                <?php endif; ?>
+
                 <div class="ml-4">
-                  <p class="text-sm text-gray-300 whitespace-nowrap">John Doe</p>
+                  <p class="text-sm text-gray-300 whitespace-nowrap"><?php echo htmlspecialchars($username); ?></p>
                   <p class="text-xs text-gray-400 whitespace-nowrap">Active free account</p>
                 </div>
               </div>
@@ -191,27 +187,38 @@
         </div>
       </nav>
 
-      <button id="open-sidebar" class='ml-auto fixed top-[30px] left-[18px]'>
-        <ion-icon name="menu" class="w-5 h-5 text-gray-300"></ion-icon>
+      <button class='fixed top-0 left-0 bg-[#081028] z-50 sm:w-full md:w-[50px] lg:w-[50px] w-full'>
+        <div class="flex flex-col gap-10 sm:flex p-[15px] h-full">
+          <ion-icon id="open-sidebar" name="menu" class="w-5 h-5 text-gray-300"></ion-icon>
+        </div>
+
+        <!-- Other icons hidden by default on mobile, shown on larger screens -->
+        <div class="flex flex-col gap-10  sm:hidden p-[15px] h-full lg:flex md:flex hidden">
+          <ion-icon id="open-sidebar" name="search" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('main.php')" name="home" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('services.php')" name="add" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('order.php')" name="time" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('help.php')" name="shield" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('profile.php')" name="person" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('settings.php')" name="settings" class="w-5 h-5 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('order.phpWorker?user_id=<?php echo $_SESSION['user_id']; ?>')" name="laptop-outline" class="w-5 h-8 text-gray-300"></ion-icon>
+          <ion-icon onclick="loadContent('logout.php')" name="log-out-outline" class="w-5 h-5 text-gray-300"></ion-icon>
+        </div>
       </button>
 
-      <section class="main-content w-full p-6 max-lg:ml-8">
-        <div>
-          <div class="flex items-center flex-wrap gap-6">
-            <div>
-              <h3 class="text-lg font-semibold text-white">Welcome back, John</h3>
-              <p class="text-xs text-gray-300">Streamlined dashboard layout featuring a welcoming header for user
-                personalization.</p>
-            </div>
-            <div class="main-container">
-            <?php include 'main.php'; ?>  
 
-            </div>
-          </div>
+      <!-- Content Container -->
+      <div class="w-full relative top-12 sm:top-48 md:top-0 lg-top-0 xl:top-0 2xl:top-0">
+        <div id="content ">
+          <?php include 'main.php'; ?>
         </div>
-        </section>
+      </div>
+
+      <?php include 'footer.php'; ?>
     </div>
   </div>
+
+
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -249,38 +256,43 @@
 
     sidebarCloseBtn.addEventListener('click', () => {
       sidebarCollapseMenu.style.cssText = 'width: 32px; visibility: hidden; opacity: 0;';
-      sidebar.style.cssText = 'width: 32px;';
+      sidebar.style.cssText = 'width: 50px;';
     });
   });
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('#sidebar a[data-page]');
-    const contentArea = document.querySelector('.main-content');
-
-    links.forEach(link => {
-      link.addEventListener('click', () => {
-        const page = link.getAttribute('data-page');
-
-        // Fetch the content from the corresponding PHP file
-        fetch(page)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`Error loading page: ${response.status}`);
-            }
-            return response.text();
-          })
-          .then(data => {
-            // Inject the content into the main content area
-            contentArea.innerHTML = data;
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            contentArea.innerHTML = `<p class="text-red-500">Failed to load content. Please try again later.</p>`;
-          });
+  // Load Content Dynamically
+  function loadContent(page) {
+    fetch(page)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Content could not be loaded');
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('content').innerHTML = data;
+      })
+      .catch(error => {
+        console.error('Error loading content:', error);
+        document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
       });
-    });
-  });
-</script>
+  }
 
+  // // Load Content Dynamically
+  // function loadContent(page) {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open('GET', page, true);
+  //   xhr.onreadystatechange = function() {
+  //     if (xhr.readyState === 4 && xhr.status === 200) {
+  //       document.getElementById('content').innerHTML = xhr.responseText;
+  //     }
+  //   };
+  //   xhr.send();
+  // }
+
+  // // Initially load main.php content
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   loadContent('main.php');
+  // });
+</script>
 
 </html>

@@ -44,16 +44,7 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query("SELECT * FROM service_categories")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-</head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-5">
+    <div class="container mx-auto p-5 h-auto flex flex-col">
         <!-- Search and Category Form -->
         <form action="" method="GET" class="mb-5">
             <label for="category_id" class="mr-2">Select Category:</label>
@@ -89,5 +80,4 @@ $categories = $pdo->query("SELECT * FROM service_categories")->fetchAll(PDO::FET
             <?php endif; ?>
         </div>
     </div>
-</body>
-</html>
+

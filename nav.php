@@ -1,7 +1,7 @@
 <body id="body-pd">
     
     <!-- Navigation Sidebar -->
-    <div class="l-navbar" id="navbar">
+    <div class="l-navbar " id="navbar" >
         <nav class="nav">
             <div>
                 <div class="nav__brand" style="padding-right: 40px;">

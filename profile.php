@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $phone_number = $_POST['phone_number'];
     $address = $_POST['address'];
-    
+
     // Handle profile picture upload
     if ($_FILES['profile_picture']['error'] == 0) {
         $profile_picture = 'uploads/' . basename($_FILES['profile_picture']['name']);
@@ -46,195 +46,109 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Tailwind in PHP</title>
-</head>
-<body>
-    <div class="text-center text-blue-500">Hello, Tailwind!</div>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <style>
-        /* General Styles */
-        .profile-card {
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
-        }
-
-        .profile-card img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            margin-bottom: 20px;
-        }
-
-        .profile-card h2 {
-            font-size: 20px;
-            margin: 10px 0 5px;
-        }
-
-        .profile-card p {
-            color: #888;
-            margin: 5px 0;
-        }
-
-        .profile-card .info {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .profile-card .info div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .profile-card .info div span {
-            color: #333;
-        }
-
-        .profile-card .info div i {
-            color: #888;
-            cursor: pointer;
-        }
-
-        .edit-fields {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .edit-fields input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .fas.fa-pen {
-            cursor: pointer;
-            margin-left: 10px;
-            color: #007bff;
-            float: right;
-        }
-    
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <div class="profile-card">
-        <i class="fas fa-pen" id="edit-icon"></i>
-        <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="profile-picture">
-        <h2><?php echo htmlspecialchars($user['username']); ?> 
-        </h2>
-        <p>@<?php echo htmlspecialchars($user['username']); ?></p>
+    <div class="bg-white border border-gray-300 rounded-lg p-5 text-center w-full max-w-md shadow-md mx-auto mt-12 ">
+        <i class="fas fa-pen float-right text-blue-600 ml-3 cursor-pointer" id="edit-icon"></i>
 
-        <!-- Information Section -->
-        <div class="info" id="info-section">
-            <div>
-                <span>Username</span>
-                <span><?php echo htmlspecialchars($user['username']); ?></span>
-            </div>
-            <div>
-                <span>Email</span>
-                <span><?php echo htmlspecialchars($user['email']); ?></span>
-            </div>
-            <div>
-                <span>Phone</span>
-                <span><?php echo htmlspecialchars($user['phone_number']); ?></span>
-            </div>
-            <div>
-                <span>Address</span>
-                <span><?php echo htmlspecialchars($user['address']); ?></span>
-            </div>
+        <div class="mt-10">
+            <!-- Initially, show image and hide file input -->
+            <img id="profile-img" src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="w-32 h-32 m-auto">
+            <input type="file" name="profile_picture" id="profile-picture-input" class="mt-2 p-1 hidden">
+            <p class="font-serif text-2xl font-bold">@<?php echo htmlspecialchars($user['username']); ?></p>
         </div>
 
-        <!-- Edit Profile Form -->
-        <div class="edit-field" id="edit-field">
-            <form method="POST" action="profile.php" enctype="multipart/form-data">
-                <label for="username">Username</label>
-                <input type="text" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+        <table class="w-full flex justify-around">
+            <thead>
+                <tr class="flex flex-col">
+                    <th class="p-1 text-right">Name :</th>
+                    <th class="p-1 text-right">Email :</th>
+                    <th class="p-1 text-right">Phone :</th>
+                    <th class="p-1 text-right">Address :</th>
+                </tr>
+            </thead>
 
-                <label for="email">Email</label>
-                <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-
-                <label for="phone_number">Phone</label>
-                <input type="text" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number']); ?>" required>
-
-                <label for="address">Address</label>
-                <input type="text" name="address" value="<?php echo htmlspecialchars($user['address']); ?>" required>
-
-                <label for="profile_picture">Profile Picture</label>
-                <input type="file" name="profile_picture">
-
-                <button type="submit">Save</button>
-            </form>
-        </div>
+            <tbody id="updates" class="flex flex-col text-right">
+                <form method="POST" enctype="multipart/form-data">
+                    <tr class="flex flex-col">
+                        <td><input class="border-none focus:border-b-2 focus:border-blue-300 p-1" value="<?= htmlspecialchars($user['username']); ?>" type="text" name="username" disabled></td>
+                        <td><input class="border-none focus:border-b-2 focus:border-blue-300 p-1" value="<?= htmlspecialchars($user['email']); ?>" type="email" name="email" disabled></td>
+                        <td><input class="border-none focus:border-b-2 focus:border-blue-300 p-1" value="<?= htmlspecialchars($user['phone_number']); ?>" type="tel" name="phone_number" disabled></td>
+                        <td><input class="border-none focus:border-b-2 focus:border-blue-300 p-1" value="<?= htmlspecialchars($user['address']); ?>" type="text" name="address" disabled></td>
+                    </tr>
+                    <tr id="button-container" class="hidden">
+                        <td colspan="4" class="text-right mt-4">
+                            <button type="submit" class="bg-green-500 hover:bg-green-700 px-4 py-2 text-white rounded">Save</button>
+                            <button type="button" class="bg-gray-400 hover:bg-gray-600 px-4 py-2 text-white rounded" id="cancel-button">Cancel</button>
+                        </td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        const editIcon = document.getElementById('edit-icon');
-        const infoSection = document.getElementById('info-section');
-        const editFields = document.getElementById('edit-fields');
+        const toggleIcon = document.getElementById('edit-icon');
+        const buttonContainer = document.getElementById('button-container');
+        const inputs = document.querySelectorAll('input');
+        const cancelButton = document.getElementById('cancel-button');
+        const form = document.querySelector('form');
+        const profileImg = document.getElementById('profile-img');
+        const profilePictureInput = document.getElementById('profile-picture-input');
 
-        function toggleEditMode() {
-            infoSection.classList.toggle('hidden');
-            editFields.classList.toggle('hidden');
-        }
-        toggleEditMode();
-        // Add event listener for form submission
-        editFields.addEventListener('submit', toggleEditMode);
-        // Add event listener for cancel button
-        const cancelButton = editFields.querySelector('button:last-child');
-        cancelButton.addEventListener('click', toggleEditMode);
+        toggleIcon.addEventListener('click', function() {
+            // Toggle button visibility
+            buttonContainer.classList.toggle('hidden');
+            // Toggle input fields enabled/disabled
+            inputs.forEach(input => {
+                input.disabled = !input.disabled;
+            });
+            // Toggle image visibility and file input
+            profileImg.classList.toggle('hidden');
+            profilePictureInput.classList.toggle('hidden');
+        });
+
+        cancelButton.addEventListener('click', function() {
+            // Hide button container and disable inputs again
+            buttonContainer.classList.add('hidden');
+            inputs.forEach(input => {
+                input.disabled = true;
+            });
+            // Revert to original image state
+            profileImg.classList.remove('hidden');
+            profilePictureInput.classList.add('hidden');
+        });
+
         // Add event listener for profile picture upload
-        const profilePictureInput = editFields.querySelector('input[type="file"]');
-        profilePictureInput.addEventListener('change', toggleEditMode);
-        // Add event listener for pen icon
-        const penIcon = document.querySelector('.fa-pen');
-        penIcon.addEventListener('click', toggleEditMode);
-        // Add event listener for escape key
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                toggleEditMode();
+        profilePictureInput.addEventListener('change', function() {
+            const file = profilePictureInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         });
-        // Add event listener for clicking outside the edit fields
-        document.addEventListener('click', function (event) {
-            if (!editFields.contains(event.target)) {
-                toggleEditMode();
-            }
-        });
-        // Add event listener for clicking outside the edit icon
-        document.addEventListener('click', function (event) {
-            if (!editIcon.contains(event.target)) {
-                toggleEditMode();
-            }
-        });
-        // Add event listener for clicking outside the profile picture input
-        document.addEventListener('click', function (event) {
-            if (!profilePictureInput.contains(event.target)) {
-                toggleEditMode();
-            }
-        });
+        // Load Content Dynamically
+        function loadContent(page) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', page, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('content').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
 
     </script>
 </body>
